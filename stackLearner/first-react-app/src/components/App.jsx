@@ -1,41 +1,81 @@
 import React from 'react';
-import Profile from './profile';
-import Skills from './profile/Skills';
-import MyProps from './props';
-
-class Child extends React.Component {
-    render () {
-        this.props.func(this);
-        return <h1>I am Child</h1>;
-    }
-}
-
-const ChildComponent = props => (
-    <div>
-        <h3> I am Child Component</h3>
-        <p>I don't know what to do</p>
-        {props.children}
-    </div>
-)
 
 class App extends React.Component {
 
-    getContetext (context) {
-        console.log(context);
+    state = {
+        count: 0
+    };
+
+    intervalID = null
+
+    incrimentCount = () => {
+        this.setState({count: this.state.count + 1 })
+    };
+
+    decrimentCount = () => {
+        if(this.state.count > 0){
+            this.setState({count: this.state.count - 1 })
+        }
+    };
+
+    startTimer = () => {
+        if(this.state.count > 0 && !this.intervalID){
+            this.intervalID = setInterval(() => {
+
+                this.setState({count: this.state.count - 1 }, () => {
+                    if(this.state.count === 0){
+                        alert('Timer Finished');
+                        clearInterval(this.intervalID);
+                        this.intervalID = null;
+                    }
+                } )
+            }, 1000);
+        }
+    }
+
+    stopTimer = () => {
+        if(this.intervalID){
+            clearInterval(this.intervalID);
+            this.intervalID = null;
+        }
+    }
+
+    resetTimer = () => {
+        if(this.intervalID){
+            clearInterval(this.intervalID);
+            this.intervalID = null;
+        }
+        this.setState({count: 0});
     }
 
     render() {
-        this.getContetext(this);
+        
         return(
             <div className = 'App'>
-                <Profile/>
+                <h1 className='heading'> Timer </h1>
+                <div className='Container'>
+                    <button className='Btn' onClick={this.decrimentCount}>
+                        -
+                    </button>
+                        <span className='Text'> { this.state.count}</span>
+                    <button className='Btn' onClick={this.incrimentCount}>
+                        +
+                    </button>
+                </div>
 
-             {/* <Child func={this.getContetext}/>  */}
+                <div className='Container'>
+                    <button className='Btn' onClick={this.startTimer}>
+                        Start
+                    </button>
 
-            <ChildComponent>
-                <h2>Hello, i am from Parent</h2>
-                <h4>I am Child of Child Component</h4>
-            </ChildComponent>
+                    <button className='Btn' onClick={this.stopTimer}>
+                        Stop
+                    </button>
+
+                    <button className='Btn' onClick={this.resetTimer}>
+                        Reset
+                    </button>
+                </div>
             </div>
         );
     }
