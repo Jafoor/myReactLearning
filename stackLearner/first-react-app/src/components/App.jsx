@@ -1,51 +1,33 @@
 import React from 'react';
 import classes from './style.module.css';
+import Input from './input/signupForm.jsx';
 
 class App extends React.Component {
 
-
     state = {
-        name : ''
-    };
-    handleButtonClick = (event) => {
-        console.log(event);
-    };
-
-    handleChange = event => {
-        this.setState({name: event.target.value})
-        console.log(event.target.value);
-    };
-
-    handleFocus = event => {
-        console.log('I am Focused');
-    };
-
-    handleBlured = event => {
-
-        if(!this.state.name){
-            alert('type your name');
-        }
-        
+        users: []
     }
 
+    createUser = user => {
+        user.id = new Date().getTime().toString();
+        this.setState({
+            users: [...this.state.users, user]
+        })
+    }
     render() {
         
         return(
             <div className = {classes.Wapper}>
-                
-                <h1 className={classes.Heading}>Events in React</h1>
+               <Input createUser={this.createUser} />
+               
+               <div>
+                   <h3 className="my-5"> All Registered Users: </h3>
+                   <ul className='list-group'>
+                        {this.state.users.map(user => (<li key={user.id} className='list-group-item'> {user.name} - {user.email} </li>))}
+                   </ul>
+               </div>
 
-                <button className={classes.Btn} onClick={this.handleButtonClick}> Click Me </button>
-                <br/>
-                <input  onChange={this.handleChange} className={classes.TextField} 
-                type="text" 
-                value={this.state.name} 
-                placeholder='Enter some text'
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlured} />
-                <br/>
-                <br/>
-                {this.state.name &&  <h3>Welcome, {this.state.name} </h3> }
+
             </div>
         );
     }
@@ -55,17 +37,3 @@ class App extends React.Component {
 export default App;
 
 
-/**
- * What is event?
- * - Event is an object which only triggers when something special happens and returns an object to
- * the listener which contains information related to that event. 
- * 
- * Ex: Button click, Input Element, Form Submission, Mouse Enter, Mouse Leave
- * 
- * Note: Event is the only way to interact with user and get users feedback
- * 
- * Every Event Has-
- * 
- *      - Name
- *      - Listener Function
- */
