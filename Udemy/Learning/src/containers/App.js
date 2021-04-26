@@ -1,21 +1,43 @@
 import React from 'react';
-import './App.css';
-import Person from '../components/Persons/Person/Person';
-
+import  classes from './App.module.css';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends React.Component {
 
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
   state = {
     persons : [
       { id:"1",  name : "Jafor", age: "22"},
       { id:"2", name : "Ahsan", age: "24"},
       { id:"3", name : "Somiha", age: "23"},
     ],
-    showPerson: false
+    otherState: 'Some other value',
+    showPerson: false,
+    showCockpit: true
+  };
+
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps ', props);
+    return state;
   }
 
-  nameChange = (event, id) => {
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate ');
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
+  }
+  nameChangeHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex( (p) => {
       return p.id === id;
     });
@@ -37,22 +59,7 @@ class App extends React.Component {
 
     )
   }
-  switchName = (newName) => {
-      this.setState({
-        persons : [
-          {name : "Abu Jafor", age: "22"},
-          {name : "Ahsan", age: "24"},
-          {name : "Somiha", age: "23"},
-        ]
-      }
-
-      )
-  }
-
-  togglePersonHandler = () => {
-    this.setState({showPerson: !this.state.showPerson})
-  };
-
+  
   deleteUserHandler = (index) => {
     //Good Practice
     //const persons = this.state.persons.slice();
@@ -63,53 +70,38 @@ class App extends React.Component {
     persons.splice(index, 1);
     this.setState({persons: persons});
   }
+
+
+togglePersonHandler = () => {
+  this.setState({showPerson: !this.state.showPerson})
+};
   render(){
-
-    const style = {
-      backgroundColor : 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
-
-    const classes = [];
-    if(this.state.persons.length > 2){
-      classes.push('red');
-    }
-    else{
-      classes.push('bold');
-    }
+    console.log('[App.js] render');
     let persons = null;
     if(this.state.showPerson){
       persons = (
         <div>
-          { this.state.persons.map( (person, index) => {
-            return <Person
-            click = {() => this.deleteUserHandler(index)}
-            name = {person.name} age={person.age}
-            key = {person.id} 
-            changed = { (event) => this.nameChange( event, person.id)}
-            />
-          })}
+          <Persons 
+          persons={this.state.persons}
+          clicked = {this.deleteUserHandler}
+          changed = {this.nameChangeHandler} />
         </div>
-      )
-      style.backgroundColor = 'red';
-      style[':hover']= {
-        backgroundColor: 'green',
-        color: 'white',
-      }
-    };
+      );
+    }
+
     return (
       
-      <div className="App">
-        <h1 className={classes.join(' ')}> This is Test </h1>
-        <button style={style} onClick={this.togglePersonHandler}> Change Name </button>
-        
+      <div className={classes.App}>
+        <button
+        onClick = {() => {
+          this.setState({showCockpit: false})
+        }}
+        >Revove Cockpit</button>
+        { this.state.showCockpit ? (<Cockpit
+        persons = {this.state.persons}
+        showPerson = {this.state.showPerson}
+        clicked = {this.togglePersonHandler}
+        />) : null}
         {persons}
       </div>
       
