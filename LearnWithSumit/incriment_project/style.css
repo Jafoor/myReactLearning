@@ -1,0 +1,21 @@
+.cointainer{
+    border: 5px solid #FFFF00;
+    text-align: center;
+    width: 60%;
+    margin: auto;
+    padding: 10%;
+}
+
+#display {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+#button {
+    background-color: hsl(108, 81%, 34%);
+    padding: 10px;
+    border: solid 1px;
+    border-radius: 5%;
+    color: white;
+    cursor: pointer;
+}
