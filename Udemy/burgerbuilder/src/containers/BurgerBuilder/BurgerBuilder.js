@@ -6,9 +6,9 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummery/OrderSummery';
 
 const INGREDIENT_PRICES ={
-    salad: 15,
-    cheese: 30,
-    meat: 60,
+    salad: 20,
+    cheese: 40,
+    meat: 50,
     bacon: 30
 };
 
