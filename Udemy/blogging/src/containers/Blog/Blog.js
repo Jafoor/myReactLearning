@@ -9,7 +9,7 @@ import './Blog.css';
 
 const AsyncNewPost = asyncComponent( () => {
     return import('./NewPost/NewPost')
-});
+}); 
 
 class Blog extends Component {
 
