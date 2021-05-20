@@ -1,55 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Book from '../representational/Book';
+import { Link } from 'react-router-dom';
 
-class BookList extends React.Component {
-
-    constructor(props) {
-        super(props);
-        console.log("Booklist Constructor");
-    }
-
-    UNSAFE_componentWillMount() {
-        console.log("Booklist: Component will mount");
-    }
-
-    componentDidMount() {
-        console.log("Booklist: Component Did Mount")
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps){
-        console.log("U booklist  componentWillReceiveProps ", nextProps);
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
-        console.log("U booklist shouldComponentUpdate", nextProps, nextState);
-        return true;
-    }
-
-    UNSAFE_componentWillUpdate(nextProps, nextState){
-        console.log("U bookList componentWillUpdate")
-    }
-
-    componentDidUpdate(){
-        console.log("U booklist componentDidUpdate");
-    }
-
+class BookList extends Component {
     render() {
-        console.log("Booklist: Render");
         return (
             this.props.books.map((book, index) => {
                 return (
-                    <Book
-                        bookName={book.bookName}
-                        writer={book.writer}
-                        delete={() => this.props.deleteBookState(index)}
-                        key={book.id}
-                        inputName={(event) => this.props.changeWithInputState(event, index)}
-                    />
+                    <Link to={"/" + book.id} key={book.id} style={{ textDecoration: "none", color: "black" }}>
+                        <Book
+                            bookName={book.bookName}
+                            writer={book.writer}
+                            selectedBookHandler={() => this.props.selectedBookHandler(book.id)}
+                        />
+                    </Link>
                 );
             })
         );
     }
-    
 }
+
 
 export default BookList;
