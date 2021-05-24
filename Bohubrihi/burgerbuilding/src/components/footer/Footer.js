@@ -6,7 +6,7 @@ const Footer = () => {
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-auto">
-                        <p>Jafor's Restaurant &#169; Copyright 2021</p>
+                        <p>Bohubrihi Restaurant &#169; Copyright 2020</p>
                     </div>
                 </div>
             </div>
